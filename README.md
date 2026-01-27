@@ -86,7 +86,6 @@ STEP 03：設定ファイルの作成
 コマンド: vim compose.yml
 
 
-＊コピー時に変な空白が開きます。空白は開けないでください
 
 
 services:
@@ -130,7 +129,7 @@ mkdir -p nginx/conf.d
 vim nginx/conf.d/default.conf
 
 
-＊コピー時に変な空白が開きます。空白は開けないでください
+
 
 
 server {
@@ -158,7 +157,7 @@ server {
 
 vim Dockerfile
 
-＊コピー時に変な空白が開きます。空白は開けないでください
+
 
 
 FROM php:8.4-fpm-alpine AS php
