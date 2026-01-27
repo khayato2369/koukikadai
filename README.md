@@ -205,6 +205,9 @@ server {
 
 vim Dockerfile
 
+＊コピー時に変な空白が開きます。空白は開けないでください
+
+
 FROM php:8.4-fpm-alpine AS php
 
 RUN apk add --no-cache autoconf build-base \
@@ -221,16 +224,24 @@ COPY ./php.ini ${PHP_INI_DIR}/php.ini
 
 』
 
+
 STEP 04：DB構築とファイル配置
 
-『　9. MySQLテーブル作成
-docker compose exec mysql mysql example_db を実行し、SQLを貼り付けます。
 
+『　9. MySQLテーブル作成
+
+docker compose exec mysql mysql example_db 
+
+
+を実行し、SQLを貼り付けます。
+
+
+１行ずつお願いします
 
 』
 
 
-『SQL
+『 SQL
 
 
 CREATE TABLE `access_logs` (`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, `user_agent` TEXT NOT NULL, `remote_ip` TEXT NOT NULL, `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP);
@@ -247,6 +258,7 @@ ALTER TABLE `users` ADD COLUMN icon_filename TEXT DEFAULT NULL, ADD COLUMN intro
 
 
 『 10. ファイル転送
+
 ローカルPCのターミナルから実行します。
 
 
@@ -267,7 +279,7 @@ chmod 644 public/setting/*.php
 』
 
 
-STEP 04：起動
+STEP 05：起動
 
 
 『 12. コンテナ起動
