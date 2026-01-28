@@ -239,7 +239,7 @@ docker compose up -d --build
 『 13. ブラウザ確認
 
 
-http://{IPアドレス}/signup.php
+http://{パブリックIPアドレス}/signup.php
 
 
 』
