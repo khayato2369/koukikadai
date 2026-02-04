@@ -124,7 +124,7 @@ volumes: { mysql: , image: }
 ```
 
 
-## 7. Nginx設定
+### 7. Nginx設定
 
 ```
 mkdir -p nginx/conf.d
@@ -154,7 +154,7 @@ server {
 }
 ```
 
-## 8. PHP Dockerfile
+### 8. PHP Dockerfile
 
 ```
 vim Dockerfile
