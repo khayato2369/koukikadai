@@ -17,7 +17,7 @@ ssh ec2-user@{IPアドレス} -i {秘密鍵ファイルのパス}
 
 作業効率化のため、Vimの設定を済ませます。
 ```
-コマンド: vim ~/.vimrc
+vim ~/.vimrc
 ```
 ```
 Vim Script
@@ -36,7 +36,7 @@ set autoindent
 sudo yum install vim screen -y
 ```
 ```
-コマンド: vim ~/.screenrc
+vim ~/.screenrc
 ```
 
 ```
@@ -86,7 +86,7 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 ### 6. compose.yml
 ```
-コマンド: vim compose.yml
+vim compose.yml
 ```
 
 
