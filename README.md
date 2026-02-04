@@ -13,42 +13,13 @@ ssh ec2-user@{IPアドレス} -i {秘密鍵ファイルのパス}
 ```
 
 
-### 2. エディタ設定
-
-作業効率化のため、Vimの設定を済ませます。
-```
-vim ~/.vimrc
-```
-```
-Vim Script
-set number
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set autoindent
-```
-
-
-
-### 3. 便利ツールの導入
-
-```
-sudo yum install vim screen -y
-```
-```
-vim ~/.screenrc
-```
-
-```
-hardstatus alwayslastline "%{= bw}%-w%{= wk}%n%t*%{-}%+w"
-```
 
 
 
 ## STEP 02：Docker環境構築
 
 
-### 4. Dockerインストール
+### 2. Dockerインストール
 
 ```
 sudo yum install -y docker
@@ -64,7 +35,7 @@ sudo usermod -a -G docker ec2-user
 
 
 
-### 5. Docker Composeインストール
+### 3. Docker Composeインストール
 
 ```
 sudo mkdir -p /usr/local/lib/docker/cli-plugins/
@@ -76,107 +47,10 @@ compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 ```
 
+## STEP 03：DB構築とファイル配置
 
 
-
-## STEP 03：設定ファイルの作成
-
-
-
-
-### 6. compose.yml
-```
-vim compose.yml
-```
-
-
-```
-services:
-  web:
-    image: nginx:latest  
-    ports: [ "80:80" ]
-    volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-      - ./public/:/var/www/public/
-      - image:/var/www/upload/image/
-    depends_on: [ php ]
-  php:
-    container_name: php
-    build: { context: ., target: php }
-    volumes:
-      - ./public/:/var/www/public/
-      - image:/var/www/upload/image/
-  mysql:
-    container_name: mysql
-    image: mysql:8.4
-    environment:
-      MYSQL_DATABASE: example_db 
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      TZ: Asia/Tokyo
-    volumes: [ mysql:/var/lib/mysql ]
-    command: >
-      mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=4MB
-  redis:
-    container_name: redis
-    image: redis:latest
-    ports: [ "6379:6379" ]
-volumes: { mysql: , image: }
-```
-
-
-### 7. Nginx設定
-
-```
-mkdir -p nginx/conf.d
-```
-```
-vim nginx/conf.d/default.conf
-```
-
-
-
-```
-server {
-    listen       0.0.0.0:80;
-    server_name  _;
-    charset      utf-8;
-    client_max_body_size 6M;
-    root /var/www/public;
-    location ~ \.php$ {
-        fastcgi_pass  php:9000;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-        include       fastcgi_params;
-    }
-    location /image/ {
-        root /var/www/upload;
-    }
-}
-```
-
-### 8. PHP Dockerfile
-
-```
-vim Dockerfile
-```
-
-
-```
-FROM php:8.4-fpm-alpine AS php
-RUN apk add --no-cache autoconf build-base \
-&& yes '' | pecl install redis \
-&& docker-php-ext-enable redis
-RUN docker-php-ext-install pdo_mysql
-RUN install -o www-data -g www-data -d /var/www/upload/image/
-COPY ./php.ini ${PHP_INI_DIR}/php.ini
-```
-
-
-
-## STEP 04：DB構築とファイル配置
-
-
-### 9. MySQLテーブル作成
+### 4. MySQLテーブル作成
 ```
 docker compose exec mysql mysql example_db 
 ```
@@ -205,7 +79,7 @@ ALTER TABLE `users` ADD COLUMN icon_filename TEXT DEFAULT NULL, ADD COLUMN intro
 
 
 
-### 10. ファイル転送
+### 5. ファイル転送
 
 ローカルPCのターミナルから実行します。
 
@@ -214,7 +88,7 @@ scp -i {秘密鍵のパス} -r {publicディレクトリのパス} ec2-user@{IP�
 ```
 
 
-### 11. パーミッション修正
+### 6. パーミッション修正
 
 ```
 chmod 755 public/
@@ -226,17 +100,17 @@ chmod 644 public/setting/*.php
 
 
 
-## STEP 05：起動
+## STEP 04：起動
 
 
-### 12. コンテナ起動
+### 7. コンテナ起動
 
 ```
 docker compose up -d --build
 ```
 
 
-### 13. ブラウザ確認
+### 8. ブラウザ確認
 
 ```
 http://{パブリックIPアドレス}/signup.php
