@@ -53,6 +53,12 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 ```
 git clone https://github.com/khayato2369/koukikadai.git
 ```
+```
+cd koukikadai
+```
+```
+docker compose build
+```
 
 ### 4. MySQLテーブル作成
 ```
