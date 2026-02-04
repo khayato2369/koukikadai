@@ -58,6 +58,7 @@ cd koukikadai
 ```
 ```
 docker compose build
+docker compose up -d
 ```
 
 ### 4. MySQLテーブル作成
