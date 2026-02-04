@@ -7,13 +7,13 @@
 ## STEP 01：初期セットアップ
 
 
- 『 1. SSHログイン
+### 1. SSHログイン
 ```
 ssh ec2-user@{IPアドレス} -i {秘密鍵ファイルのパス}
 ```
-』
 
-『 2. エディタ設定
+
+### 2. エディタ設定
 
 作業効率化のため、Vimの設定を済ませます。
 ```
@@ -28,9 +28,9 @@ set shiftwidth=2
 set autoindent
 ```
 
-』
 
-『 3. 便利ツールの導入
+
+### 3. 便利ツールの導入
 
 ```
 sudo yum install vim screen -y
@@ -43,14 +43,12 @@ sudo yum install vim screen -y
 hardstatus alwayslastline "%{= bw}%-w%{= wk}%n%t*%{-}%+w"
 ```
 
-』
 
 
 ## STEP 02：Docker環境構築
 
 
-
-『 4. Dockerインストール
+### 4. Dockerインストール
 
 ```
 sudo yum install -y docker
@@ -64,9 +62,9 @@ sudo usermod -a -G docker ec2-user
 ※ここで一度 exit して再ログインしてください。
 
 
-』
 
-『 5. Docker Composeインストール
+
+### 5. Docker Composeインストール
 
 ```
 sudo mkdir -p /usr/local/lib/docker/cli-plugins/
@@ -78,15 +76,15 @@ compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 ```
 
-』
-
-
-STEP 03：設定ファイルの作成
 
 
 
+## STEP 03：設定ファイルの作成
 
-『 　6. compose.yml
+
+
+
+### 6. compose.yml
 ```
 コマンド: vim compose.yml
 ```
@@ -125,9 +123,8 @@ services:
 volumes: { mysql: , image: }
 ```
 
-』
 
-『 7. Nginx設定
+## 7. Nginx設定
 
 ```
 mkdir -p nginx/conf.d
@@ -157,9 +154,7 @@ server {
 }
 ```
 
-』
-
-『 8. PHP Dockerfile
+## 8. PHP Dockerfile
 
 ```
 vim Dockerfile
@@ -175,13 +170,13 @@ RUN docker-php-ext-install pdo_mysql
 RUN install -o www-data -g www-data -d /var/www/upload/image/
 COPY ./php.ini ${PHP_INI_DIR}/php.ini
 ```
-』
 
 
-STEP 04：DB構築とファイル配置
+
+## STEP 04：DB構築とファイル配置
 
 
-『　9. MySQLテーブル作成
+### 9. MySQLテーブル作成
 ```
 docker compose exec mysql mysql example_db 
 ```
@@ -191,10 +186,10 @@ docker compose exec mysql mysql example_db
 
 １行ずつお願いします
 
-』
 
 
-『 SQL
+
+### SQL
 
 ```
 CREATE TABLE `access_logs` (`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, `user_agent` TEXT NOT NULL, `remote_ip` TEXT NOT NULL, `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP);
@@ -207,10 +202,10 @@ CREATE TABLE `users` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `na
 
 ALTER TABLE `users` ADD COLUMN icon_filename TEXT DEFAULT NULL, ADD COLUMN introduction TEXT DEFAULT NULL, ADD COLUMN cover_filename TEXT DEFAULT NULL, ADD COLUMN birthday DATE DEFAULT NULL;
 ```
-』
 
 
-『 10. ファイル転送
+
+### 10. ファイル転送
 
 ローカルPCのターミナルから実行します。
 
@@ -218,9 +213,8 @@ ALTER TABLE `users` ADD COLUMN icon_filename TEXT DEFAULT NULL, ADD COLUMN intro
 scp -i {秘密鍵のパス} -r {publicディレクトリのパス} ec2-user@{IPアドレス}:/home/ec2-user/
 ```
 
-』
 
-『 11. パーミッション修正
+### 11. パーミッション修正
 
 ```
 chmod 755 public/
@@ -229,24 +223,23 @@ chmod 755 public/setting/
 chmod 644 public/setting/*.php
 ```
 
-』
 
 
-STEP 05：起動
+
+## STEP 05：起動
 
 
-『 12. コンテナ起動
+### 12. コンテナ起動
 
 ```
 docker compose up -d --build
 ```
 
-』
 
-『 13. ブラウザ確認
+### 13. ブラウザ確認
 
 ```
 http://{パブリックIPアドレス}/signup.php
 ```
 
-』
+
