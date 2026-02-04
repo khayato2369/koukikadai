@@ -49,6 +49,10 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 ## STEP 03：DB構築とファイル配置
 
+### git cloneでGithubからソースコードを取得します。
+```
+git clone https://github.com/khayato2369/koukikadai.git
+```
 
 ### 4. MySQLテーブル作成
 ```
