@@ -191,7 +191,7 @@ docker compose exec mysql mysql example_db
 
 ### SQL
 
-```
+```sql
 CREATE TABLE `access_logs` (`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, `user_agent` TEXT NOT NULL, `remote_ip` TEXT NOT NULL, `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP);
 
 CREATE TABLE `bbs_entries` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `user_id` INT UNSIGNED NOT NULL, `body` TEXT NOT NULL, `image_filename` TEXT DEFAULT NULL, `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP);
